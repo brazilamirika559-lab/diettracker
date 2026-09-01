@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Diet Tracker</title>
+<style>
+body{background:#000;color:#fff;text-align:center;padding-top:30px;font-family:sans-serif;}
+h1{font-size:20px;}
+.count{font-size:32px;font-weight:bold;margin:10px;color:#00BFFF;}
+.btn{background:#00BFFF;color:#fff;border:none;padding:12px 18px;margin:8px;border-radius:12px;font-size:16px;}
+</style>
+</head>
+<body>
+<h1>💧 الماء</h1>
+<div class="count" id="water">0</div>
+<button class="btn" id="btn1">+ كاس</button>
+
+<h1>🔥 السعرات</h1>
+<div class="count" id="cal">0</div>
+<button class="btn" id="btn2">+ 100</button>
+
+<script>
+let water=0, cal=0;
+document.getElementById('btn1').onclick=()=>{water++;document.getElementById('water').innerText=water}
+document.getElementById('btn2').onclick=()=>{cal+=100;document.getElementById('cal').innerText=cal}
+</script>
+<script>
+if('serviceWorker' in navigator) {
+  navigator.serviceWorker.register('service-worker.js');
+}
+</script>
+
+</body>
+</html>
+<link rel="manifest" href="manifest.json">
