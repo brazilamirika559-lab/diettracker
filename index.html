@@ -7,7 +7,6 @@
 <style>
 * { margin:0; padding:0; box-sizing:border-box; font-family:sans-serif; }
 body { background:#fff; padding:20px; padding-bottom:110px; }
-.top { margin-bottom:20px; }
 .top h1 { font-size:32px; }
 .top p { color:#888; margin-top:4px; }
 .card { border-radius:24px; padding:20px; margin-bottom:16px; }
@@ -24,67 +23,100 @@ body { background:#fff; padding:20px; padding-bottom:110px; }
 .btn-blue { background:#4A90E2; }
 .btn-orange { background:#FF9A5A; }
 .meal { background:#F6F6F6; padding:14px; border-radius:16px; display:flex; justify-content:space-between; margin-bottom:10px; }
+.page { display:none; }
+.page.active { display:block; }
 .bottom { position:fixed; bottom:0; right:0; left:0; background:#fff; display:flex; border-top:1px solid #eee; padding:10px 0; }
 .bottom button { flex:1; background:none; border:none; font-size:12px; color:#999; }
 .bottom .active { color:#22B07D; font-weight:bold; }
+.box { background:#F6F6F6; padding:16px; border-radius:16px; margin-bottom:12px; }
+input { width:100%; padding:13px; border:1px solid #ddd; border-radius:14px; margin-bottom:10px; font-size:16px; }
 </style>
 </head>
 <body>
-<div class="top"><h1>مرحباً 👋</h1><p>اليوم، تتبع صحتك</p></div>
 
-<div class="card green">
-  <div class="row"><div class="icon">💧</div><div><div>الماء</div><div class="big"><span id="water">2</span></div><small>لتر من 2.5 لتر</small></div></div>
-  <div class="bar"><div class="fill" id="waterBar" style="background:#4A90E2;width:25%"></div></div>
-  <button class="btn btn-blue" id="btnWater">+ كأس 💧</button>
+<!-- الرئيسية -->
+<div id="page-home" class="page active">
+  <div class="top"><h1>مرحباً 👋</h1><p>اليوم، تتبع صحتك</p></div>
+  <div class="card green">
+    <div class="row"><div class="icon">💧</div><div><div>الماء</div><div class="big"><span id="water">0</span></div><small>لتر من 2.5 لتر</small></div></div>
+    <div class="bar"><div class="fill" id="waterBar" style="background:#4A90E2;width:0%"></div></div>
+    <button class="btn btn-blue" id="btnWater">+ كأس 💧</button>
+  </div>
+  <div class="card orange">
+    <div class="row"><div class="icon">🔥</div><div><div>السعرات الحرارية</div><div class="big" style="color:#B34A00"><span id="cal">0</span></div><small>سعرة من 2000 سعرة</small></div></div>
+    <div class="bar"><div class="fill" id="calBar" style="background:#FF9A5A;width:0%"></div></div>
+    <button class="btn btn-orange" id="btnCal">+ 100 🔥</button>
+  </div>
 </div>
 
-<div class="card orange">
-  <div class="row"><div class="icon">🔥</div><div><div>السعرات الحرارية</div><div class="big" style="color:#B34A00"><span id="cal">200</span></div><small>سعرة من 2000 سعرة</small></div></div>
-  <div class="bar"><div class="fill" id="calBar" style="background:#FF9A5A;width:10%"></div></div>
-  <button class="btn btn-orange" id="btnCal">+ 100 🔥</button>
+<!-- الوجبات -->
+<div id="page-meals" class="page">
+  <div class="top"><h1>📋 وجباتي</h1><p>شنو كليتي اليوم؟</p></div>
+  <div id="list"><div class="meal"><span>🍳 فطور - بيض و آتاي</span><b>200</b></div></div>
+  <input id="mealName" placeholder="مثلا: طاجين">
+  <input id="mealCal" type="number" placeholder="السعرات - مثلا: 400">
+  <button class="btn" id="btnMeal" style="background:#22B07D">+ إضافة وجبة</button>
 </div>
 
-<h3 style="margin:18px 0 12px">وجباتي اليوم</h3>
-<div id="list"><div class="meal"><span>🍳 فطور - بيض و آتاي</span><b>200</b></div></div>
-<button class="btn" id="btnMeal" style="background:#22B07D;margin-top:6px">+ إضافة وجبة</button>
+<!-- الإحصائيات -->
+<div id="page-stats" class="page">
+  <div class="top"><h1>📊 إحصائياتي</h1><p>التقدم ديالك</p></div>
+  <div class="box">💧 الماء: <b><span id="statWater">0</span> كأس</b></div>
+  <div class="box">🔥 السعرات: <b><span id="statCal">0</span></b></div>
+  <div class="box">🍽️ عدد الوجبات: <b><span id="statMeals">1</span></b></div>
+  <div class="box">⭐ تقييم اليوم: <b id="statMsg">مزال ما بديتي</b></div>
+</div>
+
+<!-- الملف -->
+<div id="page-profile" class="page">
+  <div class="top"><h1>👤 الملف</h1><p>معلوماتك</p></div>
+  <div class="box">الاسم: <b>أنا</b><br>الهدف: نقص الوزن 💪</div>
+  <button class="btn" id="btnReset" style="background:#FF5A5A">تصفير اليوم - نبدا من 0</button>
+</div>
 
 <div class="bottom">
-  <button class="active">🏠<br>الرئيسية</button>
-  <button>📋<br>الوجبات</button>
-  <button>📊<br>الإحصائيات</button>
-  <button>👤<br>الملف</button>
+  <button class="active" data-page="home">🏠<br>الرئيسية</button>
+  <button data-page="meals">📋<br>الوجبات</button>
+  <button data-page="stats">📊<br>الإحصائيات</button>
+  <button data-page="profile">👤<br>الملف</button>
 </div>
 
 <script>
-let w=2, c=200;
-let waterEl=document.getElementById('water');
-let calEl=document.getElementById('cal');
+let w=0, c=0, meals=1;
 function update(){
-  waterEl.textContent=w;
-  calEl.textContent=c;
+  document.getElementById('water').textContent=w;
+  document.getElementById('cal').textContent=c;
+  document.getElementById('statWater').textContent=w;
+  document.getElementById('statCal').textContent=c;
+  document.getElementById('statMeals').textContent=meals;
   document.getElementById('waterBar').style.width=(w/8*100)+'%';
   document.getElementById('calBar').style.width=(c/2000*100)+'%';
+  document.getElementById('statMsg').textContent = w>=8 ? 'واو! كملتي الماء 🎉' : w>=3 ? 'مزيان، كملي' : 'مزال ما بديتي';
 }
 document.getElementById('btnWater').addEventListener('click',function(){ w++; update(); });
 document.getElementById('btnCal').addEventListener('click',function(){ c+=100; update(); });
 document.getElementById('btnMeal').addEventListener('click',function(){
-  let name=prompt('شنو كليتي؟');
-  let cal2=prompt('شحال من سعرة؟');
-  if(name){
-    let d=document.createElement('div');
-    d.className='meal';
-    d.innerHTML='<span>'+name+'</span><b>'+(cal2||'0')+'</b>';
-    document.getElementById('list').appendChild(d);
-    if(cal2){ c+=parseInt(cal2); update(); }
-  }
+  let n=document.getElementById('mealName').value;
+  let cc=document.getElementById('mealCal').value;
+  if(!n) return alert('كتب سميت الوجبة');
+  let d=document.createElement('div'); d.className='meal';
+  d.innerHTML='<span>'+n+'</span><b>'+(cc||'0')+'</b>';
+  document.getElementById('list').appendChild(d);
+  if(cc) c+=parseInt(cc); meals++;
+  document.getElementById('mealName').value=''; document.getElementById('mealCal').value='';
+  update(); alert('تزادت!');
 });
+document.getElementById('btnReset').addEventListener('click',function(){ w=0; c=0; meals=1; update(); alert('تصفر كلشي'); });
 document.querySelectorAll('.bottom button').forEach(function(b){
   b.addEventListener('click',function(){
     document.querySelectorAll('.bottom button').forEach(function(x){x.classList.remove('active')});
     b.classList.add('active');
-    alert('قريبا: '+b.innerText);
+    document.querySelectorAll('.page').forEach(function(p){p.classList.remove('active')});
+    document.getElementById('page-'+b.dataset.page).classList.add('active');
+    window.scrollTo(0,0);
   });
 });
+update();
 </script>
 </body>
 </html>
